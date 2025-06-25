@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>mini mini</title>
+  <link rel="stylesheet" 
+  type="text/css" href="styles/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link 
+    href="https://fonts.googleapis.com/css2?family=
+    Quicksand:wght@700&family=Pacifico&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="neumorph-card">
+    <div class="toggle-wrap">
+      <button class="toggle" id="toggleTheme" aria-label="Toggle dark mode">
+        <span class="toggle-circle" id="toggleCircle">🌞</span>
+      </button>
+      <span class="toggle-label" id="toggleLabel">Light Mode</span>
+    </div>
+    <div class="banner">hola pato</div>
+    <div id="score">Score: 0</div>
+    <h2>Perdon la tardanza XD</h2>
+    <button class="btn" onclick="y()" id="yes">Si</button>
+    <p><i>Haces el mini mini? 🥺</i></p>
+    <p class="y"></p>
+    <button class="btn no" onclick="z()">No</button>
+    
+  </div>
+  <script>
+          // Dark/light mode toggle logic
+    const toggle = document.getElementById('toggleTheme');
+    const toggleLabel = document.getElementById('toggleLabel');
+    const toggleCircle = document.getElementById('toggleCircle');
+    let darkMode = false;
+    toggle.addEventListener('click', () => {
+      darkMode = !darkMode;
+      document.body.classList.toggle('dark', darkMode);
+      toggleLabel.textContent = darkMode ? 'Dark Mode' : 'Light Mode';
+      toggleCircle.textContent = darkMode ? '🌙' : '🌞';
+    });
+
+    // "No" button logic: moves to random position in the card
+    let point = 0;
+    const noBtn = document.querySelector('.no');
+    const card = document.querySelector('.neumorph-card');
+    const score = document.getElementById('score');
+    function moveNoBtn() {
+      const padding = 10;
+      const cRect = card.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+      const maxLeft = cRect.width - btnRect.width - padding;
+      const maxTop = cRect.height - btnRect.height - padding;
+      let left = Math.random() * maxLeft + padding / 2;
+      let top = Math.random() * maxTop + 120;
+      left = Math.max(padding, Math.min(left, cRect.width - btnRect.width - padding));
+      top = Math.max(100, Math.min(top, cRect.height - btnRect.height - padding));
+      noBtn.style.left = `${left}px`;
+      noBtn.style.top = `${top}px`;
+    }
+    setInterval(moveNoBtn, 600);
+    noBtn.addEventListener('mouseenter', moveNoBtn);
+
+    function y() {
+      let h2 = document.querySelector(".y");
+      h2.innerText = "no pudiste tocas el no verdad, hahha solo bromeo🤣";
+      h2.style.color = darkMode ? "#000000" : "#000000";
+      burstHearts();
+    }
+    function z() {
+      point++;
+      score.innerText = `Score: ${point}`;
+      card.animate([
+        { transform: 'translateX(0)' },
+        { transform: 'translateX(-10px)' },
+        { transform: 'translateX(10px)' },
+        { transform: 'translateX(-10px)' },
+        { transform: 'translateX(0)' }
+      ], { duration: 350, iterations: 1 });
+    }
+    function burstHearts() {
+      for (let i = 0; i < 10; i++) {
+        const heart = document.createElement('img');
+        heart.src = "https://img.icons8.com/emoji/48/000000/red-heart.png";
+        heart.className = "heart";
+        heart.style.left = "50%";
+        heart.style.top = "60%";
+        heart.style.opacity = "1";
+        heart.style.transform = `translate(-50%, -50%) scale(1) rotate(${Math.random()*360}deg)`;
+        heart.style.zIndex = 100;
+        card.appendChild(heart);
+        setTimeout(() => {
+          heart.style.transition = "all 1s cubic-bezier(.77,0,.18,1)";
+          heart.style.left = `${50 + Math.random()*60-30}%`;
+          heart.style.top = `${30 + Math.random()*30-15}%`;
+          heart.style.opacity = "0";
+          heart.style.transform += " scale(1.7)";
+        }, 10);
+        setTimeout(() => {
+          heart.remove();
+        }, 1200);
+      }
+    }
+    // Initial position for No button
+    moveNoBtn();
+  </script src="main.js"></script>
+</body>
+</html>
+
