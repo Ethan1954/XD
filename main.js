@@ -1,1 +1,0 @@
-alert("Me debes una galleta Lina 🍪")
